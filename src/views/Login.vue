@@ -256,10 +256,10 @@
 			},
 			// 发送登陆请求
 			async submitLogin() {
-				const {data: res} = await this.$http.post('/user/login', this.Login_Form)
+				const {data: res} = await this.$http.post('/admin/login', this.Login_Form)
 				// console.log(res)
 				if (res.status == 0) {
-					if (res.data.role == 1) {
+					if (res.status==0) {
 						this.$message.success('登陆成功')
 						// 保存token
 						const token = res.data.tokenHead + ' ' + res.data.token

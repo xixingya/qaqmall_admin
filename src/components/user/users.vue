@@ -17,11 +17,11 @@
 			<!-- 用户列表区域 -->
 			<el-table :data="userList" border stripe>
 				<el-table-column type="index" label="#" />
-				<el-table-column label="用户id" prop="uuid" />
+				<el-table-column label="用户id" prop="id" />
 				<el-table-column label="用户名" prop="username" />
 				<el-table-column label="角色" prop="role">
 					<template v-slot="scope">
-						<span v-if="scope.row.role==1">管理员</span>
+						<span v-if="scope.row.role==0">管理员</span>
 						<span v-else>普通用户</span>
 					</template>
 				</el-table-column>
@@ -137,7 +137,7 @@
 			// 更改用户状态
 			async userStateChange(e) {
 				let updateForm = {
-					uuid: e.uuid,
+					id: e.id,
 					status: !e.status
 				}
 				let res = await this.$http.patch('/admin/user', updateForm)

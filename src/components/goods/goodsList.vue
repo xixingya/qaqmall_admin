@@ -35,14 +35,15 @@
 			<!-- 商品列表 -->
 			<el-table :data="goodsList" border style="width: 100%">
 				<el-table-column prop="id" label="#" width="60" />
-				<el-table-column prop="subtitle" label="商品名称" width="180"></el-table-column>
-				<el-table-column prop="cName" label="商品分类" width="180"></el-table-column>
-				<el-table-column prop="mName" label="生产厂家"></el-table-column>
-				<el-table-column prop="price" label="价格" width="80px"></el-table-column>
-				<el-table-column prop="image" label="图片" width="80px">
+        <el-table-column prop="name" label="商品名称" width="180"></el-table-column>
+				<el-table-column prop="subtitle" label="副标题" width="220"></el-table-column>
+<!--				<el-table-column prop="cName" label="商品分类" width="180"></el-table-column>-->
+<!--				<el-table-column prop="mName" label="生产厂家"></el-table-column>-->
+				<el-table-column prop="price" label="价格" width="120px"></el-table-column>
+				<el-table-column prop="mainImage" label="图片" width="100px">
 					<!-- 商品图片处理 -->
 					<template v-slot="scope">
-						<img style="width: 100%;height: 3.125rem" :src=scope.row.image alt="">
+						<img style="width: 100%;height: 3.125rem" :src=scope.row.mainImage alt="">
 					</template>
 				</el-table-column>
 				<el-table-column prop="status" label="状态" width="80px">
@@ -53,7 +54,7 @@
 					            />
 					</template>
 				</el-table-column>
-				<el-table-column label="操作" width="180" align="center">
+				<el-table-column label="操作" width="280" align="center">
 					<template v-slot="scope">
 						<!-- 新增按钮 -->
 						<!-- <el-button type="primary" icon="el-icon-circle-plus" size="mini" @click="dialogFormVisible = true" /> -->
@@ -68,8 +69,11 @@
 			<el-dialog title="修改商品" :visible.sync="dialogFormVisibleUpdate">
 				<el-form :model="updateData" :rules="rules" ref="updateGoodsRef">
 					<el-form-item label="商品名称" label-width="120" prop="subtitle" >
-						<el-input v-model="updateData.subtitle" :value="updateData.subtitle" style="width: 218px;"></el-input>
+						<el-input v-model="updateData.name" :value="updateData.name" style="width: 218px;"></el-input>
 					</el-form-item>
+          <el-form-item label="副标题" label-width="120" prop="subtitle" >
+            <el-input v-model="updateData.subtitle" :value="updateData.subtitle" style="width: 218px;"></el-input>
+          </el-form-item>
 					<el-form-item label="商品价格" label-width="120" prop="price" >
 						<el-input v-model="updateData.price" :value="updateData.price" style="width: 218px;"></el-input>
 					</el-form-item>
@@ -77,7 +81,7 @@
 						<el-input v-model="updateData.descs" :value="updateData.descs" style="width: 218px;" type="textarea"></el-input>
 					</el-form-item>
 					<el-form-item label="商品图片" label-width="120">
-						<el-upload class="upload-demo" :on-success="handleSuccess" action="http://jxs17.com/api/admin/upload" :headers="myheader" name="img"
+						<el-upload class="upload-demo" :on-success="handleSuccess" action="http://localhost/admin/upload" :headers="myheader" name="img"
 						 :file-list="fileList3">
 							<el-button size="small" type="primary">点击上传</el-button>
 							<div slot="tip" class="el-upload__tip">只能上传jpg/png文件，且不超过500kb</div>
@@ -91,6 +95,9 @@
 					<el-form-item label="商品排序" label-width="120">
 						<el-input v-model="updateData.sorted_order" :value="updateData.sorted_order" style="width: 218px;"></el-input>
 					</el-form-item>
+          <el-form-item label="库存" label-width="120">
+            <el-input v-model="updateData.stock" style="width: 218px;"></el-input>
+          </el-form-item>
 					<el-form-item label="商品参数" label-width="120">
 						<el-input v-model="updateData.param" :value="updateData.param" type="textarea" style="width: 218px;"></el-input>
 					</el-form-item>
@@ -106,8 +113,11 @@
 				<el-form :model="addData" :rules="rules" ref="addGoodsRef">
 
 					<el-form-item label="商品名称" label-width="120" prop="subtitle">
-						<el-input v-model="addData.subtitle" style="width: 218px;"></el-input>
+						<el-input v-model="addData.name" style="width: 218px;"></el-input>
 					</el-form-item>
+          <el-form-item label="副标题" label-width="120" prop="subtitle">
+            <el-input v-model="addData.subtitle" style="width: 218px;"></el-input>
+          </el-form-item>
 					<el-form-item label="商品价格" label-width="120" prop="price">
 						<el-input v-model="addData.price" style="width: 218px;"></el-input>
 					</el-form-item>
@@ -115,7 +125,7 @@
 						<el-input v-model="addData.descs" style="width: 218px;" type="textarea"></el-input>
 					</el-form-item>
 					<el-form-item label="商品图片" label-width="120">
-						<el-upload class="upload-demo" action="http://jxs17.com/api/admin/upload" :headers="myheader" :file-list="fileList3" :limit="1"
+						<el-upload class="upload-demo" action="http://localhost/admin/upload" :headers="myheader" :file-list="fileList3" :limit="1"
 						 name="img" :on-success="handleSuccess">
 							<el-button size="small" type="primary">点击上传</el-button>
 							<div slot="tip" class="el-upload__tip">只能上传jpg/png文件，且不超过500kb</div>
@@ -129,6 +139,9 @@
 					<el-form-item label="商品排序" label-width="120">
 						<el-input v-model="addData.sorted_order" style="width: 218px;"></el-input>
 					</el-form-item>
+          <el-form-item label="库存" label-width="120">
+            <el-input v-model="addData.stock" style="width: 218px;"></el-input>
+          </el-form-item>
 					<el-form-item label="商品参数" label-width="120">
 						<el-input v-model="addData.param" style="width: 218px;" type="textarea"></el-input>
 					</el-form-item>
@@ -212,19 +225,23 @@
 
 			// 获取父级分类
 			async getParentsCatagories() {
-				let res = await this.$http.get('/')
+				let res = await this.$http.get('/center/categories')
+        console.log(res.data.data)
 				// 父级分类列表
-				this.parentsCatagories = res.data.data.categories
+				this.parentsCatagories = res.data.data
 				// 厂家列表
-				let manufactors = res.data.data.manufactors
+        let res1 = await this.$http.get('/admin/brand')
+				let manufactors = res1.data.data
+        console.log(manufactors)
 				// 保存父级分类到本地
-				manufactors.forEach(v => {
-					v.manufactors.forEach(m => {
-						this.manufactors.push(m)
-					})
-				})
+				// manufactors.forEach(v => {
+				// 	v.manufactors.forEach(m => {
+				// 		this.manufactors.push(m)
+				// 	})
+				// })
+        this.manufactors = manufactors
 				sessionStorage.setItem('parentsCatagories', JSON.stringify(this.parentsCatagories))
-				// sessionStorage.setItem('manufactors', JSON.stringify(this.manufactors))
+				//sessionStorage.setItem('manufactors', JSON.stringify(manufactors))
 			},
 
 			// 监听父级分类选框
@@ -257,8 +274,9 @@
 			
 			// 上传图片成功之后的回调
 			handleSuccess(e) {
-				this.addData.image = e.data
-				this.updateData.image = e.data
+			  console.log(e)
+				this.addData.mainImage = e.data
+				this.updateData.mainImage = e.data
 			},
 
 			// 添加商品

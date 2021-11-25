@@ -6,7 +6,7 @@
         <img
           style="height:60px"
         />
-        <span>江西仪器网后台管理系统</span>
+        <span>qaqmall后台管理系统</span>
       </div>
       <el-button
         type="info"

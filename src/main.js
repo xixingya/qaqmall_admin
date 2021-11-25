@@ -10,11 +10,11 @@ Vue.config.productionTip = false
 // axios.defaults.baseURL = 'http://2ka2774089.iok.la/'
 
 // axios.defaults.baseURL = 'http://39.97.127.228:8081'
-axios.defaults.baseURL = 'http://jxs17.com/api'
+axios.defaults.baseURL = 'http://127.0.0.1'
 axios.interceptors.request.use(config => {
- 
+    console.log(window.sessionStorage.getItem('token'))
   // 在最后必须return config
-  // config.headers.Authorization = window.sessionStorage.getItem('token')
+  config.headers.Authorization = window.sessionStorage.getItem('token')
   return config
 })
 Vue.prototype.$http = axios

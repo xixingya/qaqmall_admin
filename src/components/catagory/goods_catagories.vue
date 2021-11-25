@@ -136,9 +136,10 @@
 		methods: {
 			// 获取父级分类
 			async getParentsCatagories() {
-				let res = await this.$http.get('/')
+				let res = await this.$http.get('/center/categories')
 				// 父级分类列表
-				this.parentsCatagories = res.data.data.categories
+				this.parentsCatagories = res.data.data
+        console.log(res)
 
 				sessionStorage.setItem('parentsCatagories', JSON.stringify(this.parentsCatagories))
 				
